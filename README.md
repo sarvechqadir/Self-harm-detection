@@ -91,5 +91,9 @@ model.evaluate(test_dataset)
 ```
 ```
 1111/1111 [==============================] - 113s 102ms/step - loss: 0.2261 - accuracy: 0.9577
-[0.22609302401542664, 0.9576957821846008]
 ```
+
+## Sample Input
+<img width="726" alt="Screen Shot 2023-12-03 at 8 04 05 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/a0f7353d-f1dd-4c66-a292-2ee19b3991bf">
+
+
