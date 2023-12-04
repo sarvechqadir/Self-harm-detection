@@ -2,25 +2,25 @@
 
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/71eec72b-971a-4dcc-8a3f-515b443856f2)
 
-Suicidal intention or ideation detection is one of the evolving research fields in social media. People use Instagram, Twitter, and Reddit platforms to share their thoughts, tendencies, opinions, and feelings toward suicide, especially among youth. Therefore, this task becomes a challenging one due to the unstructured and noisy texts. Although engaging with people having similar experiences warrants peer-to-peer support, exposure to such content on these platforms can pose a threat of an increase in these behaviors or normalizing the use of this content. Moreover, suicide is a growing public health concern and has been ranked the second leading cause of death among youth (10-24) in the United States. Therefore, it becomes vital to research how youth talk and discuss these sensitive topics on social media. Several studies conducted research to   
+Suicidal intention or ideation detection is one of the evolving research fields in social media. People use Instagram, Twitter, and Reddit platforms to share their thoughts, tendencies, opinions, and feelings toward suicide, especially among youth. Detection of suicide and self-harm therefore becomes a challenging one due to the unstructured and noisy texts and data. Although engaging with people having similar experiences warrants peer-to-peer support, exposure to such content on these platforms can pose a threat of an increase in these behaviors or normalizing the use of this content. Moreover, suicide is a growing public health concern and has been ranked the second leading cause of death among youth (10-24) in the United States. Therefore, it becomes vital to research how youth talk and discuss these sensitive topics on social media. Several studies conducted research identifying different mechanisms for early and onset detection of suicide and self-harm content for mitigation.   
 
 # Problem
 
 1. It is vital to detect online indicators of mental health issues to mitigate harm.
 2. There is immense reliance on publicly available digital trace data or self-reported survey data.
-3. Survey-based studies are prone to recall biases
+3. Survey-based studies are prone to recall biases.
 4. There is a dire need to study how self-harm or suicide discussions unravel in private conversations of youth.
 
 
 # Data Cart
 
-This study was conducted on two different datasets. One was the Suicide and Depression Detection dataset from Kaggle which focused on Reddit posts. The second suicide/self-harm annotated dataset is part of my study. Since the dataset is not public it cannot be shared for public use. 
+This study was conducted on two different datasets. One was the Suicide and Depression Detection dataset from Kaggle (which is an openly used dataset for public use) focused on Reddit posts. The second suicide/self-harm annotated dataset is part of my study. Since the dataset is not public it cannot be shared for public use. 
 
 ## Suicide and Depression Detection
 
 [Kaggle Link](https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch)
 
-The dataset is a collection of posts from the "SuicideWatch" and "depression" subreddits of the Reddit platform. The posts are collected using Pushshift API. All posts that were made to "SuicideWatch" from Dec 16, 2008(creation) till Jan 2, 2021, were collected while "depression" posts were collected from Jan 1, 2009, to Jan 2, 2021. All posts collected from SuicideWatch are labeled as suicide, While posts collected from the depression subreddit are labeled as depression. Non-suicide posts are collected from r/teenagers. 
+The dataset is a collection of posts from the "SuicideWatch" and "depression" subreddits of the Reddit platform. The posts were collected using Pushshift API. All posts that were made to "SuicideWatch" from Dec 16, 2008(creation) till Jan 2, 2021, were collected while "depression" posts were collected from Jan 1, 2009, to Jan 2, 2021. All posts collected from SuicideWatch are labeled as suicide, While posts collected from the depression subreddit are labeled as depression. Non-suicide posts are collected from youth data. 
 
 <img width="903" alt="Screen Shot 2023-12-03 at 5 47 51 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/54ab5954-7874-45e2-9e7c-674e51ef5767">
 
@@ -37,13 +37,13 @@ This dataset is a suicide/self-harm annotated by researchers and youth which con
 # Approach
 
 
-1. **BERT Encoder**: My choice of the model is to use BERT encoder, which in this case is "base" and "uncased". "Base" means it's the smaller version of BERT (as opposed to "large"), with 12 layers (or transformer blocks), 768 hidden units, and 12 self-attention heads. "Uncased" means that it does not differentiate between uppercase and lowercase letters, treating all text as lowercase. The encoder receives tokenized text as input, which is then passed through multiple layers of transformer blocks that process the text bi-directionally, capturing context from both left and right sides of each token.
+1. **BERT Encoder**: My choice of the model is to use BERT encoder, which in this case is "base" and "uncased". "Base" means it's the smaller version of BERT (as opposed to "large"), with 12 layers (or transformer blocks), 768 hidden units, and 12 self-attention heads. "Uncased" means that it does not differentiate between uppercase and lowercase letters, treating all text as lowercase. The encoder receives tokenized text as input, which is then passed through multiple layers of transformer blocks that process the text bi-directionally, capturing context from both the left and right sides of each token.
 
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/f4a216df-555e-483d-9dbf-033934231e9b)
 
 
-   - **Inputs**: The inputs to the BERT model are typically token embeddings, segment embeddings, and position embeddings. The token embeddings are representations of the tokens in the input text. Segment embeddings are used to distinguish between different sentences or segments of text. Position embeddings provide information about the position of each token in the sequence.
-   - **Weights \( W_i \)**: These are the trainable parameters of the BERT model that are adjusted during the training process. Each layer \( i \) has its own set of weights.
+   - **Inputs**: The inputs to the BERT model are typically token embeddings, segment embeddings, and position embeddings. The token embeddings are representations of the tokens in the input text. Segment embeddings are used to distinguish between different sentences or segments of text. Position embeddings provide information about the position of each token in the sequence. In our case, we are working with token embeddings. 
+   - **Weights \( W_i \)**: Trainable parameters of the BERT model that are adjusted during the training process. Each layer \( i \) has its own set of weights.
    - **Layer \( L_i \)**: Each layer of the transformer model performs self-attention and other transformations to process the input sequence into a higher-level representation.
 
 ```
@@ -60,10 +60,19 @@ tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 4. **Classification and Regression Heads**: On top of the concatenated representations, there are different "heads" for different tasks:
    
    - **Classification Head**: This part of the model takes the concatenated representation and outputs probabilities for different classes, such as "sentiment score" or "star rating". This is typically done using a softmax function that converts raw model outputs into probabilities.
+   - **Regression Head**: In addition to classification, the model can also do regression, predicting continuous values (like an overall "sentiment score"). This is usually done with a simple linear layer with one output, which predicts the score directly without any activation function like softmax.
 
 Each head uses the same underlying BERT representations but is trained for different tasks. The presence of multiple heads indicates that the model is multi-tasking — it is trained to perform both classification (categorical outputs) and regression (continuous outputs) simultaneously.
 
 In summary, this BERT-based model has been adapted to incorporate additional meta-information alongside the text input to perform both classification and regression tasks. The model leverages the powerful contextual embeddings generated by the BERT encoder, enriched with task-specific metadata, to perform its predictions.
+
+## Why choose this approach?
+1. The base model is faster to train and to use for inference, making it more practical for many applications, especially when resources are limited.
+2. The choice between BERT-base-uncased and other variants like BERT-base-cased, BERT-large-uncased, or BERT-large-cased depends on the specifics of the task at hand, the computational resources available, and the characteristics of the text data you are working with. Based on the available resources, size, and data especially those where casing is not critical, BERT-base-uncased is a solid default choice due to its balance of size, speed, and performance.
+3. Uncased vs. Cased: An "uncased" model does not make a distinction between uppercase and lowercase letters and treats them as the same. This is useful in cases where case information is not important, such as when you are dealing with text where capitalization is used inconsistently, or when you want to reduce the model's vocabulary size and complexity.
+5. Performance: For many tasks, the uncased variant of BERT performs comparably to the cased variant and sometimes even better, especially if the case information in the training data is noisy or if the downstream task does not rely heavily on the case.
+6. Simplicity: When using the uncased model, you don't need to worry about the correct capitalization of your input text, simplifying preprocessing steps. This can be particularly useful when dealing with user-generated content like social media posts, where capitalization may be irregular.
+7. Vocabulary Size: The uncased model has a smaller vocabulary since it doesn't need separate tokens for cased and uncased versions of words, which can slightly reduce the computational requirements.
 
 
 ## Training
@@ -117,7 +126,8 @@ Persisting issues: The model still makes mistakes because it has not been traine
 1. Work on more ground truth annotations by youth to include more data.
 2. Perform with different BERT models as suggested by different research i.e DistilBERT, ALBERT, RoBERTa, and DistilRoBERTa, and check for performance.
 3. Research and work on more approaches for in-context learning.
-4. Comparative analysis of working of different models on different kinds of datasets such as posts, tweets, comments, and private conversations to finalize a perfect model for each specific situation. 
+4. Comparative analysis of working different models on different kinds of datasets such as posts, tweets, comments, and private conversations to finalize a perfect model for each specific situation.
+5. A BERT "cased" model preserves the original case of the text, which can be beneficial for tasks where case information carries important signals, such as Named Entity Recognition (NER), look at Capitalized texts to understand the context and responses.
 
 # Resources
 **Dataset**: [https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch/data](https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch/data)
