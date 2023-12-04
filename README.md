@@ -29,6 +29,12 @@ The dataset is a collection of posts from the "SuicideWatch" and "depression" su
 
 
 # Approach
+
+<img width="461" alt="Screen Shot 2023-12-03 at 6 00 14 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/884e2e3e-40c5-48d3-8b75-dd1b4ebee154">
+
+
+
+
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/f4a216df-555e-483d-9dbf-033934231e9b)
 
 
