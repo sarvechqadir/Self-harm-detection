@@ -60,7 +60,6 @@ tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 4. **Classification and Regression Heads**: On top of the concatenated representations, there are different "heads" for different tasks:
    
    - **Classification Head**: This part of the model takes the concatenated representation and outputs probabilities for different classes, such as "sentiment score" or "star rating". This is typically done using a softmax function that converts raw model outputs into probabilities.
-   - **Regression Head**: In addition to classification, the model can also do regression, predicting continuous values (like an overall "sentiment score"). This is usually done with a simple linear layer with one output, which predicts the score directly without any activation function like softmax.
 
 Each head uses the same underlying BERT representations but is trained for different tasks. The presence of multiple heads indicates that the model is multi-tasking — it is trained to perform both classification (categorical outputs) and regression (continuous outputs) simultaneously.
 
@@ -100,23 +99,34 @@ model.evaluate(test_dataset)
 <img width="726" alt="Screen Shot 2023-12-03 at 8 04 05 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/a0f7353d-f1dd-4c66-a292-2ee19b3991bf">
 
 
-# Effectiveness
-This solution has an accuracy of 73.2% on a manually created validation set. However, note that the model will get large chunks of codes wrong at a time. For example, if Claude gets 1 code incorrect on a page, it often gets all of them wrong on the page.
 
-Claude seems to be fairly reliable when it comes to rewriting the text exactly as it appears on the original page. The aspect of the extraction that the model struggles most with is the assignment of each individual code to the correct group code, likely because of the text ordering issues when the PDF is read in.
+# Dataset2 - Effectiveness
+![Screen Shot 2023-12-04 at 8 51 59 AM](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/9302cb35-d4f0-457e-86f8-58dc51193405)
+
+This shows that both datasets have given high accuracy on both datasets with >95% accuracy on test data.  
+
+
 
 # Critical Analysis
-Impact: The current solution is not perfect, but it performs well enough to be able to save the company many hours of manual code extraction. This will assist in generating measures for CGE much faster, allowing Preverity to expand more rapidly into the health system space.
+The current solution is not perfect but has high accuracy and works well on many specific types of texts in private conversations.
 
-Persisting issues: The model still makes mistakes on some pages. Most often, this is due to text being read in out of order. If we were able to solve this issue, we would be able to achieve a much higher accuracy and consistency.
+Persisting issues: The model still makes mistakes because it has not been trained on much data regarding suicide and self-harm language usage of youth. More annotated data by youth can be better for the model to perform in-context learning. 
 
 ## Next steps:
 
-Investigate whether we can fix the text order issue using the Adobe tool that converts PDFs to other file formats such as text files.
-If converting to a text file appears promising, adjust the prompts slightly to accomodate inputs that look slightly different. Then, reevaluate the results.
-If Adobe can convert PDFs to HTML files in a consistent manner across PDFs, try webscraping the codes using the HTML. This would eliminate the need for a LLM (reducing costs, saving time, and potentially providing more reliable results).
+1. Work on more ground truth annotations by youth to include more data.
+2. Perform with different BERT models as suggested by different research i.e DistilBERT, ALBERT, RoBERTa, and DistilRoBERTa, and check for performance.
+3. Research and work on more approaches for in-context learning.
+4. Comparative analysis of working of different models on different kinds of datasets such as posts, tweets, comments, and private conversations to finalize a perfect model for each specific situation. 
 
 # Resources
-Preverity website
+**Dataset**: [https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch/data](https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch/data)
+
+**Papers**:
+1. [Suicidal Intention Detection in Tweets Using BERT-Based Transformers](https://ieeexplore.ieee.org/abstract/document/10037677?casa_token=Z_ouS0P8gPAAAAAA:jsSd5ZnZ6qMD9yboUK228eNUwsfWR78l8ZEAkd-wgCHXTiSArOQB1FL37BJnyu5aJ5VWM7hssQ)
+2. [Towards Suicide Ideation Detection Through Online Conversational Context
+](https://dl.acm.org/doi/abs/10.1145/3477495.3532068?casa_token=Xlm5arI4a5sAAAAA:5kDhl-4Er6xfK020NKoYNeL06nI2cj5PucseObQ7c1OwM5oi0B4TGYoiujr4rWtjsR1xsjYEiwLuyw)
+
+**BERT-base-uncased**: [https://huggingface.co/bert-base-uncased](https://huggingface.co/bert-base-uncased)
 
 
