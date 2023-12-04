@@ -2,43 +2,45 @@
 
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/71eec72b-971a-4dcc-8a3f-515b443856f2)
 
-Suicidal intention or ideation detection is one of the evolving research fields in social media. People use Instagram and Twitter platforms to share their thoughts, tendencies, opinions, and feelings toward suicide, especially among youth. Therefore, this task becomes a challenging one due to the unstructured and noisy texts. Although engaging with people having similar experiences warrants peer-to-peer support, exposure to such content on these platforms can pose a threat of an increase in these behaviors or normalizing the use of this content. Moreover, suicide is a growing public health concern and has been ranked the second leading cause of death among youth (10-24) in the United States. Therefore, it becomes vital to research how youth talk and discuss these sensitive topics on social media. Several studies conducted research to   
+Suicidal intention or ideation detection is one of the evolving research fields in social media. People use Instagram, Twitter, and Reddit platforms to share their thoughts, tendencies, opinions, and feelings toward suicide, especially among youth. Therefore, this task becomes a challenging one due to the unstructured and noisy texts. Although engaging with people having similar experiences warrants peer-to-peer support, exposure to such content on these platforms can pose a threat of an increase in these behaviors or normalizing the use of this content. Moreover, suicide is a growing public health concern and has been ranked the second leading cause of death among youth (10-24) in the United States. Therefore, it becomes vital to research how youth talk and discuss these sensitive topics on social media. Several studies conducted research to   
 
 # Problem
 
-1. It is vital to timely detect online indicators of mental health issues to mitigate harm.
+1. It is vital to detect online indicators of mental health issues to mitigate harm.
 2. There is immense reliance on publicly available digital trace data or self-reported survey data.
 3. Survey-based studies are prone to recall biases
 4. There is a dire need to study how self-harm or suicide discussions unravel in private conversations of youth.
 
 
 # Data Cart
+
+This study was conducted on two different datasets. One was the Suicide and Depression Detection dataset from Kaggle which focused on Reddit posts. The second suicide/self-harm annotated dataset is part of my study. Since the dataset is not public it cannot be shared for public use. 
+
 ## Suicide and Depression Detection
 
 [Kaggle Link](https://www.kaggle.com/datasets/nikhileswarkomati/suicide-watch)
 
-The dataset is a collection of posts from the "SuicideWatch" and "depression" subreddits of the Reddit platform. The posts are collected using Pushshift API. All posts that were made to "SuicideWatch" from Dec 16, 2008(creation) till Jan 2, 2021, were collected while "depression" posts were collected from Jan 1, 2009, to Jan 2, 2021. All posts collected from SuicideWatch are labeled as suicide, While posts collected from the depression subreddit are labeled as depression. Non-suicide posts are collected from r/teenagers.
+The dataset is a collection of posts from the "SuicideWatch" and "depression" subreddits of the Reddit platform. The posts are collected using Pushshift API. All posts that were made to "SuicideWatch" from Dec 16, 2008(creation) till Jan 2, 2021, were collected while "depression" posts were collected from Jan 1, 2009, to Jan 2, 2021. All posts collected from SuicideWatch are labeled as suicide, While posts collected from the depression subreddit are labeled as depression. Non-suicide posts are collected from r/teenagers. 
 
 <img width="903" alt="Screen Shot 2023-12-03 at 5 47 51 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/54ab5954-7874-45e2-9e7c-674e51ef5767">
 
+For the dataset, I extracted 22211 rows of conversations containing both suicide and non-suicide-labeled data. 
 
+## Annotated Dataset of Instagram private conversations
 
-
-
-2. Annotated Dataset from private conversations. 
+This dataset is a suicide/self-harm annotated by researchers and youth which contains sub-conversations/snippets from Instagram private conversations. Since the dataset is not public it cannot be shared for public use. The data contains 3518 entries on suicide and self-harm in private conversations containing both suicide and non-suicide labeled data. 
 
 
 # Approach
 
 <img width="461" alt="Screen Shot 2023-12-03 at 6 00 14 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/884e2e3e-40c5-48d3-8b75-dd1b4ebee154">
 
-
-
+1. **BERT Encoder**: The core of the model is the BERT encoder, which in this case is "base" and "uncased". "Base" means it's the smaller version of BERT (as opposed to "large"), with 12 layers (or transformer blocks), 768 hidden units, and 12 self-attention heads. "Uncased" means that it does not differentiate between uppercase and lowercase letters, treating all text as lowercase. The encoder receives tokenized text as input, which is then passed through multiple layers of transformer blocks that process the text bidirectionally, capturing context from both left and right sides of each token.
 
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/f4a216df-555e-483d-9dbf-033934231e9b)
 
 
-1. **BERT Encoder**: The core of the model is the BERT encoder, which in this case is "base" and "uncased". "Base" means it's the smaller version of BERT (as opposed to "large"), with 12 layers (or transformer blocks), 768 hidden units, and 12 self-attention heads. "Uncased" means that it does not differentiate between uppercase and lowercase letters, treating all text as lowercase. The encoder receives tokenized text as input, which is then passed through multiple layers of transformer blocks that process the text bidirectionally, capturing context from both left and right sides of each token.
+
 
    - **Inputs**: The inputs to the BERT model are typically token embeddings, segment embeddings, and position embeddings. The token embeddings are representations of the tokens in the input text. Segment embeddings are used to distinguish between different sentences or segments of text. Position embeddings provide information about the position of each token in the sequence.
    - **Weights \( W_i \)**: These are the trainable parameters of the BERT model that are adjusted during the training process. Each layer \( i \) has its own set of weights.
