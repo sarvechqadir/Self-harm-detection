@@ -94,6 +94,7 @@ model.evaluate(test_dataset)
 ```
 
 ## Sample Input
+
 <img width="726" alt="Screen Shot 2023-12-03 at 8 04 05 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/a0f7353d-f1dd-4c66-a292-2ee19b3991bf">
 
 
