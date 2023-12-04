@@ -98,3 +98,23 @@ model.evaluate(test_dataset)
 <img width="726" alt="Screen Shot 2023-12-03 at 8 04 05 PM" src="https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/a0f7353d-f1dd-4c66-a292-2ee19b3991bf">
 
 
+# Effectiveness
+This solution has an accuracy of 73.2% on a manually created validation set. However, note that the model will get large chunks of codes wrong at a time. For example, if Claude gets 1 code incorrect on a page, it often gets all of them wrong on the page.
+
+Claude seems to be fairly reliable when it comes to rewriting the text exactly as it appears on the original page. The aspect of the extraction that the model struggles most with is the assignment of each individual code to the correct group code, likely because of the text ordering issues when the PDF is read in.
+
+# Critical Analysis
+Impact: The current solution is not perfect, but it performs well enough to be able to save the company many hours of manual code extraction. This will assist in generating measures for CGE much faster, allowing Preverity to expand more rapidly into the health system space.
+
+Persisting issues: The model still makes mistakes on some pages. Most often, this is due to text being read in out of order. If we were able to solve this issue, we would be able to achieve a much higher accuracy and consistency.
+
+## Next steps:
+
+Investigate whether we can fix the text order issue using the Adobe tool that converts PDFs to other file formats such as text files.
+If converting to a text file appears promising, adjust the prompts slightly to accomodate inputs that look slightly different. Then, reevaluate the results.
+If Adobe can convert PDFs to HTML files in a consistent manner across PDFs, try webscraping the codes using the HTML. This would eliminate the need for a LLM (reducing costs, saving time, and potentially providing more reliable results).
+
+# Resources
+Preverity website
+
+
