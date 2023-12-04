@@ -1,4 +1,4 @@
-# Self-harm-detection
+# Self-harm/Suicide-detection
 
 ![image](https://github.com/sarvechqadir/Self-harm-detection/assets/78235308/71eec72b-971a-4dcc-8a3f-515b443856f2)
 
